@@ -8,25 +8,11 @@ namespace HateDetector.API.Models
     /// </summary>
     public class TwitterSearchResult
     {
-        public List<Result> Results { get; set; }
+        public List<Tweet> Results { get; set; }
 
         public SearchResultMetadata Metadata { get; set; }
     }
 
-    /// <summary>
-    /// Individual Tweet found durring search using Twitter API
-    /// </summary>
-    public class Result
-    {
-        [JsonProperty("id")]
-        public string TweetId { get; set; }
-
-        [JsonProperty("public_metrics")]
-        public PublicMetrics Metrics { get; set; }
-
-        [JsonProperty("text")]
-        public string TweetText { get; set; }
-    }
 
     /// <summary>
     /// The metrics for an individual Tweet returned in search
