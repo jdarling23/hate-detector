@@ -12,18 +12,22 @@ namespace HateDetector.API
 {
     public class Startup
     {
-        public Startup(IConfiguration configuration)
-        {
-            Configuration = configuration;
-        }
-
         public IConfiguration Configuration { get; }
+
+        public Startup()
+        {
+            Configuration = new ConfigurationBuilder()
+                .AddJsonFile("appsettings.json")
+                .AddUserSecrets<Program>()
+                .AddEnvironmentVariables()
+                .Build();
+        }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-                .AddMicrosoftIdentityWebApi(Configuration.GetSection("AzureAd"));
+            //services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+            //    .AddMicrosoftIdentityWebApi(Configuration.GetSection("AzureAd"));
 
             services.AddControllers();
 
@@ -33,7 +37,8 @@ namespace HateDetector.API
             });
 
             // Constructor Injection
-            services.AddTransient<ITweetRepository, TweetApiRepository>();
+            services.AddTransient<ITweetRepository>(
+                repo => new TweetApiRepository(Configuration["Twitter:ApiKey"], Configuration["Twitter:ApiSecret"]));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

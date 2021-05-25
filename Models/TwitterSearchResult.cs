@@ -8,8 +8,10 @@ namespace HateDetector.API.Models
     /// </summary>
     public class TwitterSearchResult
     {
+        [JsonProperty("data")]
         public List<Tweet> Results { get; set; }
 
+        [JsonProperty("meta")]
         public SearchResultMetadata Metadata { get; set; }
     }
 
